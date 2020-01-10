@@ -1,0 +1,99 @@
+<html>
+<head>
+<!-- LINK PER I TEMI -->
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="tema/all.css">
+	<link rel="stylesheet" href="tema/bootstrap-colorpicker.min.css">
+	<link rel="stylesheet" href="tema/select2.min.css">
+	<link rel="stylesheet" href="tema/AdminLTE.min.css">
+	<link rel="stylesheet" href="tema/_all-skins.min.css">
+	<script type="text/JavaScript">
+// FUNZIONE CHE CIFRA LA STRINGA INSERITA
+  function cifra(){
+  		chiaro=document.getElementById("chiaro").value; // prende la stringa dal campo 'chiaro'
+  		chiave=document.getElementById("chiave").value; // prende la stringa dal campo 'chiave'
+  		chiaro=chiaro.toUpperCase(); // trasforma le cifre minuscole del campo 'chiaro' in maiuscolo
+  		chiave=chiave.toUpperCase(); // trasforma le cifre minuscole del campo 'chiave' in maiuscolo
+  		chiave=chiave.replace(/[^A-Z]/g,""); // elimina il superfluo e considera solo i valori A-Z
+  		chiaro=chiaro.replace(/[^A-Z]/g,""); // elimina il superfluo e considera solo i valori A-Z
+  		cifrato=""; // inizializza la variabile cifrato con un campo vuoto
+  		for(i=0;i<chiaro.length;i++){ // ciclo for che cripta ogni cifra fino all'ultima
+            p=chiaro.charCodeAt(i)-65; // valore in chiaro trasformato in codice ascii 
+            c=chiave.charCodeAt(i%chiave.length)-65; // valore della chiave trasformato in codice ascii e utilizzando il modulo così da non dover toccare la chiave stessa
+            cifrato+=String.fromCharCode((p+c)%26+65); // operazione di codifica
+        }
+        // nella posizione con id 'cifrato' stampa il testo cifrato
+        document.getElementById("cifrato").value=cifrato; 
+    }
+// FUNZIONE CHE DECIFRA LA STRINGA INSERITA
+     //la decifratura è simmetrica alla cifratura
+     function decifra(){
+     	cifrato=document.getElementById("cifrato").value;
+     	chiave=document.getElementById("chiave").value;
+     	chiave=chiave.toUpperCase();
+     	chiave=chiave.replace(/[^A-Z]/g,"");
+     	chiaro="";
+     	for(i=0;i<cifrato.length;i++){
+     		p=cifrato.charCodeAt(i)-65; 
+     		c=chiave.charCodeAt(i%chiave.length)-65; 
+     		chiaro+=String.fromCharCode((p-c+26)%26+65);
+     	}
+     	document.getElementById("chiaro").value=chiaro;
+     }
+ </script>
+</head>
+<!-- PAGINA WEB -->
+ <body style="background-color: black; border-radius: 1%">
+
+	<div class="container" style="background-color: gray; border-radius: 1%">
+	<br>
+		<div class="jumbotron">
+
+			<section class="content-header">
+				<h1>
+					Crittografare un testo
+					<small>Provare per credere</small>
+				</h1>
+			</section>
+			<section class="content">
+				<div class="box box-warning">
+					<div class="box-header with-border">
+						<h3 class="box-title">Inserisci il testo da crittografare</h3>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label>Testo in chiaro</label>
+							<textarea class="form-control" id="chiaro" rows="5" placeholder="Inserisci il testo in chiaro ..."></textarea>
+						</div>
+						<div class="form-group">
+							<label>Chiave di cifratura</label>
+							<textarea class="form-control" id="chiave" rows="2" placeholder="Inserisci la chiave che influenzerà la cifratura ..."></textarea>
+						</div>
+						<input class="btn btn-info pull-right" value="Cifrare" onclick="cifra()"> 
+					</div>
+					<div class="box-footer">
+						Il testo viene criptato utilizzando il cifrario di Vigenère e non considerando i numeri e i valori speciali.
+					</div>
+				</div>
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title">Testo cifrato</h3>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label>Testo cifrato</label>
+							<textarea class="form-control" id="cifrato" rows="5" placeholder="Qui comparirà il testo cifrato ..."></textarea>
+							</div> 
+						<div>
+							<input class="btn btn-info pull-right" value="Decifrare" onclick="decifra()"> 
+						</div>
+					</div>  
+				</div> 
+			</section>
+		</div>
+
+	</body>
+
+	</html>
